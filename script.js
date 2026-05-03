@@ -1,29 +1,75 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Theme Toggle Logic
+  // Fixed Color Palette Logic
   const themeToggle = document.getElementById('theme-toggle');
-  const body = document.body;
-  const icon = themeToggle.querySelector('i');
+  const colorOptions = document.getElementById('color-options');
 
-  // Check for saved user preference or system preference
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    body.setAttribute('data-theme', 'dark');
-    icon.className = 'fa-solid fa-sun';
-  } else {
-    body.setAttribute('data-theme', 'light');
-    icon.className = 'fa-solid fa-moon';
+  // EDIT YOUR THEME COLORS HERE:
+  // You only need to change colors in this array. They will automatically update across all pages!
+  const themeColors = ['#10b981', '#f3a724ff', '#be5353ff'];
+
+  if (colorOptions) {
+    colorOptions.innerHTML = '';
+    themeColors.forEach(color => {
+      const dot = document.createElement('div');
+      dot.className = 'color-dot';
+      dot.setAttribute('data-color', color);
+      dot.style.backgroundColor = color;
+      colorOptions.appendChild(dot);
+    });
   }
 
-  themeToggle.addEventListener('click', () => {
-    if (body.getAttribute('data-theme') === 'dark') {
-      body.setAttribute('data-theme', 'light');
-      localStorage.setItem('theme', 'light');
-      icon.className = 'fa-solid fa-moon';
-    } else {
-      body.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-      icon.className = 'fa-solid fa-sun';
-    }
+  const colorDots = document.querySelectorAll('.color-dot');
+
+  function darkenHex(hex, percent) {
+    hex = hex.replace(/^#/, '');
+    if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+    let r = parseInt(hex.substring(0, 2), 16);
+    let g = parseInt(hex.substring(2, 4), 16);
+    let b = parseInt(hex.substring(4, 6), 16);
+    r = Math.floor(r * (100 - percent) / 100);
+    g = Math.floor(g * (100 - percent) / 100);
+    b = Math.floor(b * (100 - percent) / 100);
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+  }
+
+  function applyColor(hex) {
+    document.documentElement.style.setProperty('--accent-color', hex);
+    document.documentElement.style.setProperty('--accent-hover', darkenHex(hex, 15));
+
+    // Update active class on dots
+    colorDots.forEach(dot => {
+      if (dot.getAttribute('data-color') === hex) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+  }
+
+  const savedColor = localStorage.getItem('custom-theme-color') || '#10b981';
+  applyColor(savedColor);
+
+  if (themeToggle && colorOptions) {
+    themeToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      colorOptions.classList.toggle('show');
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!themeToggle.contains(e.target) && !colorOptions.contains(e.target)) {
+        colorOptions.classList.remove('show');
+      }
+    });
+  }
+
+  colorDots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const hex = dot.getAttribute('data-color');
+      applyColor(hex);
+      localStorage.setItem('custom-theme-color', hex);
+      colorOptions.classList.remove('show');
+    });
   });
 
   // Mobile Menu Toggle
@@ -42,24 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Smooth Page Transitions
-  const links = document.querySelectorAll('a[href$=".html"]');
-  links.forEach(link => {
-    link.addEventListener('click', (e) => {
-      if (link.getAttribute('target') === '_blank') return;
-      
-      e.preventDefault();
-      const target = link.getAttribute('href');
-      
-      // Add fade out animation class
-      body.classList.add('fade-out');
-      
-      // Wait for animation to complete before navigating
-      setTimeout(() => {
-        window.location.href = target;
-      }, 300); // Should match CSS transition duration
-    });
-  });
+
 
   // Intersection Observer for Scroll Animations
   const revealElements = document.querySelectorAll('.reveal');
@@ -73,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
-        
+
         // Trigger progress bar animations if inside the revealed element
         if (entry.target.classList.contains('skill-category')) {
           const bars = entry.target.querySelectorAll('.progress');
@@ -85,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 100);
           });
         }
-        
+
         // Unobserve after revealing
         observer.unobserve(entry.target);
       }

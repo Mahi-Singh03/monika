@@ -18,9 +18,14 @@
         <a href="contact.html" class="active">Contact</a>
       </div>
       <div style="display: flex; gap: 1rem; align-items: center;">
-        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme">
-          <i class="fa-solid fa-moon"></i>
-        </button>
+        <div style="position: relative; display: flex; align-items: center;">
+          <button class="theme-toggle" id="theme-toggle" aria-label="Pick Theme Color">
+            <i class="fa-solid fa-palette"></i>
+          </button>
+          <div class="color-options" id="color-options">
+            <!-- Colors are dynamically injected here from script.js -->
+          </div>
+        </div>
         <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">
           <i class="fa-solid fa-bars"></i>
         </button>

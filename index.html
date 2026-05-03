@@ -22,9 +22,14 @@
         <a href="contact.html">Contact</a>
       </div>
       <div style="display: flex; gap: 1rem; align-items: center;">
-        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme">
-          <i class="fa-solid fa-moon"></i>
-        </button>
+        <div style="position: relative; display: flex; align-items: center;">
+          <button class="theme-toggle" id="theme-toggle" aria-label="Pick Theme Color">
+            <i class="fa-solid fa-palette"></i>
+          </button>
+          <div class="color-options" id="color-options">
+            <!-- Colors are dynamically injected here from script.js -->
+          </div>
+        </div>
         <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">
           <i class="fa-solid fa-bars"></i>
         </button>
@@ -276,11 +281,7 @@
 
   <footer class="footer">
     <div class="container">
-      <div class="social-icons">
-        <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-        <a href="mailto:Monikadhiman25837@gmail.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
-      </div>
+
       <p>&copy; 2026 Monika Devi. Educator & Administrator. All rights reserved.</p>
     </div>
   </footer>
