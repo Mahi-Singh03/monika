@@ -617,14 +617,15 @@ textarea.form-control {
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: var(--radius);
-  padding: 0.5rem;
+  padding: 0.75rem;
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
   box-shadow: var(--shadow);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
   transition: all var(--transition);
+  z-index: 1001; /* Guarantee it overlays everything on mobile */
 }
 
 .color-options.show {
@@ -634,8 +635,8 @@ textarea.form-control {
 }
 
 .color-dot {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   cursor: pointer;
   transition: transform 0.2s ease;
