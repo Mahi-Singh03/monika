@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('theme-toggle');
   const colorOptions = document.getElementById('color-options');
 
-  // EDIT YOUR THEME COLORS HERE:
+  // EDIT YOUR THEME COLORS HERE::
   // You only need to change colors in this array. They will automatically update across all pages!
   const themeColors = ['#10b981', '#f3a724ff', '#be5353ff'];
 
